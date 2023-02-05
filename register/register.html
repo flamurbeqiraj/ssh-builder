@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register new project | Angular FTP Deployer</title>
+  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../node_modules/bootstrap-icons/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="register.css">
+  <script defer type="module" src="register.js"></script>
+</head>
+<body>
+  <div class="container mt-5">
+    <h5>Register you first application</h5>
+
+    <label class="w-100 mb-2">
+      <span>Project name</span>
+      <input type="text" class="form-control form-control-sm" placeholder="Project name" id="project_name">
+    </label>
+
+    <label class="w-100 mb-2">
+      <span>Local repo</span>
+      <div class="input-group">
+        <button class="text-start form-control form-control-sm" id="localrepo">Not choosen</button>
+        <button class="btn btn-danger btn-sm"><i class="bi bi-x-lg"></i></button>
+      </div>
+    </label>
+
+    <label class="w-100 mb-2">
+      <span>Dist/Project folder</span>
+      <div class="input-group">
+        <button class="text-start form-control form-control-sm" id="dist">Not choosen</button>
+        <button class="btn btn-danger btn-sm"><i class="bi bi-x-lg"></i></button>
+      </div>
+    </label>
+    
+    <label class="w-100 mb-2">
+      <span>Remote upload destination</span>
+      <input type="text" class="form-control form-control-sm mb-1" placeholder="https://..." id="remote_url">
+    </label>
+
+    <label class="w-100 mb-2">
+      <span>Build config parameter <i>(optional)</i></span>
+      <input type="text" class="form-control form-control-sm mb-1" placeholder="empty / qs / test ..." id="build_param">
+    </label>
+    <button class="btn btn-success btn-sm w-100 mb-2" id="register">REGISTER</button>
+    <button class="btn btn-secondary btn-sm w-100" id="go_back">DASHBOARD</button>
+  </div>
+</body>
+</html>
