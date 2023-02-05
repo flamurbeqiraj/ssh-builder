@@ -13,7 +13,7 @@ const createWindow = () => {
   })
   win.removeMenu();
 
-  win.loadFile('dashboard/dashboard.html')
+  win.loadFile('pages/dashboard/dashboard.html')
 
   win.webContents.openDevTools()
   ipcMain.handle('dialog:openFile', handleFileOpen);
