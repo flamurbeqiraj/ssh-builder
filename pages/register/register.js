@@ -1,7 +1,9 @@
 const project_list = localStorage.getItem("project_list");
 const project_name = document.getElementById('project_name')
 const localrepo = document.getElementById('localrepo')
+const clear_local = document.getElementById('clear_local')
 const dist = document.getElementById('dist')
+const clear_dist = document.getElementById('clear_dist')
 const remote_url = document.getElementById('remote_url')
 const build_param = document.getElementById('build_param')
 const register = document.getElementById('register')
@@ -46,12 +48,24 @@ register.addEventListener('click', async () => {
 
 localrepo.addEventListener('click', async () => {
     const filePath = await window.electronAPI.openFile()
-    localrepo.innerText = filePath;
+    if (filePath !== undefined) {
+        localrepo.innerText = filePath;
+    }
 })
 
 dist.addEventListener('click', async () => {
     const filePath = await window.electronAPI.openFile()
-    dist.innerText = filePath;
+    if (filePath !== undefined) {
+        dist.innerText = filePath;
+    }
+})
+
+clear_local.addEventListener('click', async () => {
+    localrepo.innerText = "Not choosen"
+})
+
+clear_dist.addEventListener('click', async () => {
+    dist.innerText = "Not choosen"
 })
 
 go_back.addEventListener('click', async () => {

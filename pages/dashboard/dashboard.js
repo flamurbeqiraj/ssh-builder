@@ -22,13 +22,13 @@ if (project_list !== null) {
     } else {
         table_list.innerHTML = 
             `<tr>
-                <td colspan="4" class="text-center"><i>Empty list</i></td>
+                <td colspan="5" class="text-center"><i>Empty list</i></td>
             </tr>`;
     }
 } else {
     table_list.innerHTML = 
     `<tr>
-        <td colspan="4" class="text-center"><i>Register your first project</i></td>
+        <td colspan="5" class="text-center"><i>Register your first project</i></td>
     </tr>`;
 }
 
