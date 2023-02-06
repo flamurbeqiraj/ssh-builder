@@ -11,10 +11,10 @@ function initializeProjects() {
                 table_list.innerHTML += 
                 `<tr class="item_row">
                     <td>${i}</td>
-                    <td><i class="bi bi-play-circle-fill text-success cursor-pointer"></i></td>
+                    <td><i class="bi bi-play-circle-fill text-success cursor-pointer build"></i></td>
                     <td>${item.project_name}</td>
-                    <td>03.02.2023 15:30</td>
-                    <td>Succeed!</td>
+                    <td>${item.last_build_date || "--"}</td>
+                    <td>${item.last_build_state || "--"}</td>
                     <td class="text-center"><i class="bi bi-x-lg text-danger cursor-pointer remove_project"></i></td>
                 </tr>`;
                 i++;
@@ -45,6 +45,35 @@ document.addEventListener("click", function(e){
         project_list = list;
         localStorage.setItem("project_list", JSON.stringify(list))
         initializeProjects();
+    }
+    if (e.target.classList.contains("build")) {
+        setTimeout(() => {
+            window.electronAPI.updateProgress(0.01);
+        }, 2000);
+        setTimeout(() => {
+            window.electronAPI.updateProgress(0.2);
+        }, 4000);
+        setTimeout(() => {
+            window.electronAPI.updateProgress(0.5);
+        }, 6000);
+        setTimeout(() => {
+            window.electronAPI.updateProgress(0.55);
+        }, 8000);
+        setTimeout(() => {
+            window.electronAPI.updateProgress(0.85);
+        }, 10000);
+        setTimeout(() => {
+            window.electronAPI.updateProgress(0.95);
+        }, 12000);
+        setTimeout(() => {
+            window.electronAPI.updateProgress(0.99);
+        }, 14000);
+        setTimeout(() => {
+            window.electronAPI.updateProgress(1);
+        }, 16000);
+        setTimeout(() => {
+            window.electronAPI.updateProgress(-1);
+        }, 18000);
     }
 });
 

@@ -17,6 +17,10 @@ const createWindow = () => {
 
   win.webContents.openDevTools()
   ipcMain.handle('dialog:openFile', handleFileOpen);
+  ipcMain.handle('build_progress', (event, argument) => {
+    console.log(argument);
+    win.setProgressBar(argument)
+  });
   app.on('activate', function () {
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })
@@ -28,7 +32,6 @@ app.whenReady().then(() => {
 
 async function handleFileOpen() {
   const { canceled, filePaths } = await dialog.showOpenDialog({ properties: ['openDirectory'] }, (directory) => {
-    // console.log(directory)
   })
   if (canceled) {
     return
