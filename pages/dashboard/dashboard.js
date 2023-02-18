@@ -8,10 +8,11 @@ function initializeProjects() {
             table_list.innerHTML = "";
             let i = 1;
             for (let item of project_list) {
-                table_list.innerHTML += 
-                `<tr class="item_row">
+                table_list.innerHTML += `<tr class="item_row">
                     <td>${i}</td>
-                    <td><i class="bi bi-play-circle-fill text-success cursor-pointer build"></i></td>
+                    <td>
+                        <i class="bi bi-play-circle-fill text-success cursor-pointer build"></i>
+                    </td>
                     <td>${item.project_name}</td>
                     <td>${item.last_build_date || "--"}</td>
                     <td>${item.last_build_state || "--"}</td>
@@ -20,14 +21,12 @@ function initializeProjects() {
                 i++;
             }
         } else {
-            table_list.innerHTML = 
-                `<tr>
+            table_list.innerHTML = `<tr>
                     <td colspan="6" class="text-center"><i>Empty list</i></td>
                 </tr>`;
         }
     } else {
-        table_list.innerHTML = 
-        `<tr>
+        table_list.innerHTML = `<tr>
             <td colspan="6" class="text-center"><i>Register your first project</i></td>
         </tr>`;
     }
@@ -38,6 +37,7 @@ add_project.addEventListener("click", () => {
 })
 
 document.addEventListener("click", function(e){
+    let rowElement = e.target.parentElement;
     if (e.target.classList.contains("remove_project")) {
         let list = project_list;
         let removeIndex = e.target.closest("tr").rowIndex;
@@ -47,6 +47,9 @@ document.addEventListener("click", function(e){
         initializeProjects();
     }
     if (e.target.classList.contains("build")) {
+
+        rowElement.innerHTML = '<div class="spinner-border spinner-border-sm small-loader" role="status"><span class="sr-only"></span></div>';
+
         setTimeout(() => {
             window.electronAPI.updateProgress(0.01);
         }, 2000);
@@ -73,6 +76,7 @@ document.addEventListener("click", function(e){
         }, 16000);
         setTimeout(() => {
             window.electronAPI.updateProgress(-1);
+            rowElement.innerHTML = '<i class="bi bi-play-circle-fill text-success cursor-pointer build"></i>';
         }, 18000);
     }
 });

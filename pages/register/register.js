@@ -8,6 +8,7 @@ const remote_url = document.getElementById('remote_url')
 const build_param = document.getElementById('build_param')
 const register = document.getElementById('register')
 const go_back = document.getElementById('go_back')
+const platformName = await window.electronAPI.getPlatformName();
 
 register.addEventListener('click', async () => {
     let error_list = [];
@@ -50,6 +51,27 @@ register.addEventListener('click', async () => {
 })
 
 localrepo.addEventListener('click', async () => {
+    if (platformName === "win32") {
+        loadWindowsDirectory();
+    } else if (platformName === "mac") {
+        loadMacDirectory();
+    } else {
+        alert("Platform not defined: ", platformName);
+    }
+});
+
+async function loadWindowsDirectory() {
+    const filePath = await window.electronAPI.openFile()
+    if (filePath !== undefined) {
+        let project_name = filePath.split("\\");
+        project_name = project_name[project_name.length-1];
+        localrepo.innerText = filePath;
+        dist_path.innerText = filePath+"\\";
+        dist_project.value = "dist\\"+project_name.toLowerCase();
+    }
+}
+
+async function loadMacDirectory() {
     const filePath = await window.electronAPI.openFile()
     if (filePath !== undefined) {
         let project_name = filePath.split("/");
@@ -58,12 +80,11 @@ localrepo.addEventListener('click', async () => {
         dist_path.innerText = filePath+"/";
         dist_project.value = "dist/"+project_name.toLowerCase();
     }
-})
+}
 
 clear_local.addEventListener('click', async () => {
     localrepo.innerText = "Not choosen"
     dist_path.innerText = "Not choosen"
-
 })
 
 go_back.addEventListener('click', async () => {
