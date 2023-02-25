@@ -53,7 +53,7 @@ register.addEventListener('click', async () => {
 localrepo.addEventListener('click', async () => {
     if (platformName === "win32") {
         loadWindowsDirectory();
-    } else if (platformName === "mac") {
+    } else if (platformName === "darwin") {
         loadMacDirectory();
     } else {
         alert("Platform not defined: ", platformName);

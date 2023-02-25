@@ -32,11 +32,11 @@ function initializeProjects() {
     }
 }
 
-add_project.addEventListener("click", () => {
+add_project.addEventListener("click", async () => {
     window.location.href = "../register/register.html";
 })
 
-document.addEventListener("click", function(e){
+document.addEventListener("click", async function(e) {
     let rowElement = e.target.parentElement;
     if (e.target.classList.contains("remove_project")) {
         let list = project_list;
@@ -46,38 +46,12 @@ document.addEventListener("click", function(e){
         localStorage.setItem("project_list", JSON.stringify(list))
         initializeProjects();
     }
+
     if (e.target.classList.contains("build")) {
-
         rowElement.innerHTML = '<div class="spinner-border spinner-border-sm small-loader" role="status"><span class="sr-only"></span></div>';
-
-        setTimeout(() => {
-            window.electronAPI.updateProgress(0.01);
-        }, 2000);
-        setTimeout(() => {
-            window.electronAPI.updateProgress(0.2);
-        }, 4000);
-        setTimeout(() => {
-            window.electronAPI.updateProgress(0.5);
-        }, 6000);
-        setTimeout(() => {
-            window.electronAPI.updateProgress(0.55);
-        }, 8000);
-        setTimeout(() => {
-            window.electronAPI.updateProgress(0.85);
-        }, 10000);
-        setTimeout(() => {
-            window.electronAPI.updateProgress(0.95);
-        }, 12000);
-        setTimeout(() => {
-            window.electronAPI.updateProgress(0.99);
-        }, 14000);
-        setTimeout(() => {
-            window.electronAPI.updateProgress(1);
-        }, 16000);
-        setTimeout(() => {
-            window.electronAPI.updateProgress(-1);
-            rowElement.innerHTML = '<i class="bi bi-play-circle-fill text-success cursor-pointer build"></i>';
-        }, 18000);
+        let cmd_output = await window.electronAPI.execCommand("ng version");
+        console.log("CMD Output", cmd_output);
+        rowElement.innerHTML = '<i class="bi bi-play-circle-fill text-success cursor-pointer build"></i>';
     }
 });
 
