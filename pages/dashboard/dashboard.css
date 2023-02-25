@@ -10,3 +10,13 @@ table {
     height: 12px;
     width: 12px;
 }
+
+.logarea {
+    height: 350px;
+    width: 100%;
+    background-color: rgb(224, 224, 224);
+    border-radius: 2px;
+    overflow-y: auto;
+    padding: 2px 6px;
+    font-size: 9px;
+}

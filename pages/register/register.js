@@ -1,3 +1,6 @@
+import Tags from "../../node_modules/bootstrap5-tags/tags.js";
+Tags.init();
+
 const project_list = localStorage.getItem("project_list");
 const project_name = document.getElementById('project_name')
 const localrepo = document.getElementById('localrepo')
@@ -35,13 +38,16 @@ register.addEventListener('click', async () => {
             local_repo: localrepo.innerText,
             dist: dist_path.innerText+dist_project.value,
             remote_url: remote_url.value,
-            build_param: build_param.value
+            build_param: Array.from(build_param.selectedOptions, option => option.value)
         };
         if (new_list === null) {
             new_list = [item];
         } else {
             new_list.push(item);
         }
+
+        console.log(new_list);
+
         localStorage.setItem("project_list", JSON.stringify(new_list))
         alert("Your project has been added successfuly!");
         window.location.href = "../dashboard/dashboard.html"

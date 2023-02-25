@@ -30,28 +30,11 @@
     <label class="w-100 mb-2">
       <span>Dist/Project folder</span>
       <div class="input-group input-group-sm">
-        <!-- <button class="text-start form-control form-control-sm" id="dist">Not choosen</button> -->
         <span class="input-group-text" id="dist_path">Not choosen</span>
         <input type="text" class="form-control" id="dist_project">
       </div>
     </label>
 
-    <!-- <div class="mb-3">
-      <label for="basic-url" class="form-label">Your vanity URL</label>
-      <div class="input-group">
-        <span class="input-group-text" id="basic-addon3">https://example.com/users/</span>
-        <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
-      </div>
-      <div class="form-text">Example help text goes outside the input group.</div>
-    </div> -->
-    <!-- <label class="w-100 mb-2">
-      <span>Dist/Project folder</span>
-      <div class="input-group">
-        <button class="text-start form-control form-control-sm" id="dist">Not choosen</button>
-        <button class="btn btn-danger btn-sm" id="clear_dist"><i class="bi bi-x-lg"></i></button>
-      </div>
-    </label> -->
-    
     <label class="w-100 mb-2">
       <span>Remote upload destination</span>
       <input type="text" class="form-control form-control-sm mb-1" placeholder="https://..." id="remote_url">
@@ -59,8 +42,11 @@
 
     <label class="w-100 mb-2">
       <span>Build config parameter <i>(optional)</i></span>
-      <input type="text" class="form-control form-control-sm mb-1" placeholder="empty / qs / test ..." id="build_param">
+      <select class="form-select form-select-sm" id="build_param" name="tags[]" multiple data-allow-new="true" data-separator="|,|">
+        <option value="">Type a build step tag...</option>
+      </select>
     </label>
+
     <button class="btn btn-success btn-sm w-100 mb-2" id="register">REGISTER</button>
     <button class="btn btn-secondary btn-sm w-100" id="go_back">DASHBOARD</button>
   </div>

@@ -1,6 +1,8 @@
 let project_list = JSON.parse(localStorage.getItem("project_list"));
 const table_list = document.querySelector("#list");
 const add_project = document.querySelector("#add_project");
+const log_area = document.querySelector(".logarea");
+const prezone = document.querySelector("#prezone");
 
 function initializeProjects() {
     if (project_list !== null) {
@@ -48,10 +50,30 @@ document.addEventListener("click", async function(e) {
     }
 
     if (e.target.classList.contains("build")) {
+        let selected_item = e.target.closest("tr").rowIndex;
+        prezone.innerText = "Executing commands...";
+        log_area.classList.remove("d-none");
         rowElement.innerHTML = '<div class="spinner-border spinner-border-sm small-loader" role="status"><span class="sr-only"></span></div>';
-        let cmd_output = await window.electronAPI.execCommand("ng version");
-        console.log("CMD Output", cmd_output);
+        let build_steps = project_list[selected_item - 1].build_param;
+        let local_repo = project_list[selected_item - 1].local_repo;
+        let starter = "cd "+local_repo;
+        prezone.innerText = "";
+        let i = 0;
+        for (let item of build_steps) {
+            if (i > 0) {
+                prezone.innerText += "\n\n\n";
+            }
+            prezone.innerText += "===================== Executing: "+item+" =====================\n";
+            let cmd_output = await window.electronAPI.execCommand(starter+" && "+item);
+            prezone.innerText += cmd_output;
+            i++;
+            log_area.scrollTo(0, log_area.scrollHeight);
+        }
+        prezone.innerText += "\n\nClearing remote folder & data transfer...";
+        let feedback = await window.electronAPI.sshFilesTransfer(project_list[selected_item-1]);
+        prezone.innerText += "\n\nUpload status: "+feedback;
         rowElement.innerHTML = '<i class="bi bi-play-circle-fill text-success cursor-pointer build"></i>';
+        log_area.scrollTo(0, log_area.scrollHeight);
     }
 });
 

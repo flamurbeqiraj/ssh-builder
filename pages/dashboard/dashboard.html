@@ -13,26 +13,30 @@
 <body>
   <div class="container mt-5">
     <div class="d-flex justify-content-between mb-2">
-        <h5>Projects overview</h5>
-        <button class="btn btn-success btn-sm" id="add_project"><i class="bi bi-plus-square"></i> ADD</button>
+      <h5>Projects overview</h5>
+      <button class="btn btn-success btn-sm" id="add_project"><i class="bi bi-plus-square"></i> ADD</button>
     </div>
     <table class="table table-sm">
-        <thead>
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Status</th>
+          <th scope="col">Project name</th>
+          <th scope="col">Last build date</th>
+          <th scope="col">Last build</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody id="list">
           <tr>
-            <th scope="col">#</th>
-            <th scope="col">Status</th>
-            <th scope="col">Project name</th>
-            <th scope="col">Last build date</th>
-            <th scope="col">Last build</th>
-            <th scope="col">Action</th>
+            <td colspan="5" class="text-center"><i>Loading projects...</i></td>
           </tr>
-        </thead>
-        <tbody id="list">
-            <tr>
-              <td colspan="5" class="text-center"><i>Loading projects...</i></td>
-            </tr>
-        </tbody>
-      </table>
+      </tbody>
+    </table>
+
+    <div class="logarea d-none">
+      <pre id="prezone">Executing commands...</pre>
+    </div>
   </div>
 </body>
 </html>
