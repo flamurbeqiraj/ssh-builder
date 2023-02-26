@@ -32,6 +32,7 @@ const createWindow = () => {
     return process.platform;
   });
   ipcMain.handle('runSSHcommand', sshTransfer);
+  ipcMain.handle('runEnvFileCreator', createEnvironmentFile);
   ipcMain.handle('createUUID', () => {return uuidv4()});
   app.on('activate', function () {
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
@@ -84,4 +85,24 @@ function sshTransfer(event, obj_info) {
       resolve("not connected")
     })
   })
+}
+
+function createEnvironmentFile(event, obj_info) {
+  return new Promise((resolve, reject) => {
+    const ssh = new NodeSSH()
+    ssh.connect({
+      host: process.env.SSH_HOST,
+      username: process.env.SSH_USER,
+      port: process.env.SSH_PORT,
+      password: process.env.SSH_PASS,
+      tryKeyboard: true,
+    }).then((out) => {
+      ssh.execCommand(`mkdir ${obj_info.remote_url}`).then(() => {
+        resolve(ssh.execCommand(`echo "${obj_info.env_filecontent}" > ${obj_info.remote_url}/${obj_info.env_filename}`));
+      });
+    }).catch((err) => {
+      console.log("Not auth", err);
+      resolve("not connected")
+    })
+  });
 }

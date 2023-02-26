@@ -6,5 +6,6 @@ contextBridge.exposeInMainWorld('electronAPI',{
     getPlatformName: (name) => ipcRenderer.invoke('platformName', name),
     execCommand: (cmd) => ipcRenderer.invoke('runCommand', cmd),
     sshFilesTransfer: (bck) => ipcRenderer.invoke('runSSHcommand', bck),
+    createEnvFile: (bck) => ipcRenderer.invoke('runEnvFileCreator', bck),
     createUniqueUUID: () => ipcRenderer.invoke('createUUID'),
 })

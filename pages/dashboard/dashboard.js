@@ -76,9 +76,18 @@ document.addEventListener("click", async function(e) {
         }
         prezone.innerText += "\n\nClearing remote folder & data transfer...";
         let feedback = await window.electronAPI.sshFilesTransfer(project_list[selected_item-1]);
-        prezone.innerText += "\n\nUpload status: "+feedback;
+        if (feedback) {
+            prezone.innerText += "\n\nUpload status: "+feedback;
+            if (project_list[selected_item-1].has_envfile) {
+                let env_file = await window.electronAPI.createEnvFile(project_list[selected_item-1]);
+                if (env_file.stderr === "") {
+                    prezone.innerText += "\n\nCreated environment file";
+                }
+            }
+        }
+        prezone.innerText += "\nBuild process completed.";
         rowElement.innerHTML = '<i class="bi bi-play-circle-fill text-success cursor-pointer build"></i>';
-        log_area.scrollTo(0, log_area.scrollHeight);
+        log_area.scrollTo(0, log_area.scrollHeight);        
     }
 });
 
