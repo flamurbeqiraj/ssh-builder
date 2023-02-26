@@ -18,7 +18,7 @@ function initializeProjects() {
                     <td>${item.project_name}</td>
                     <td>${item.last_build_date || "--"}</td>
                     <td>${item.last_build_state || "--"}</td>
-                    <td class="text-center"><i class="bi bi-x-lg text-danger cursor-pointer remove_project"></i></td>
+                    <td class="text-center"><i class="bi bi-x-lg text-danger cursor-pointer remove_project"></i><i class="bi bi-sliders2 text-primary cursor-pointer edit_project ms-2"></i></td>
                 </tr>`;
                 i++;
             }
@@ -47,6 +47,11 @@ document.addEventListener("click", async function(e) {
         project_list = list;
         localStorage.setItem("project_list", JSON.stringify(list))
         initializeProjects();
+    }
+
+    if (e.target.classList.contains("edit_project")) {
+        let selected_item = e.target.closest("tr").rowIndex;
+        window.location.href = `../edit/edit.html?id=${project_list[selected_item - 1].uuid}`;
     }
 
     if (e.target.classList.contains("build")) {

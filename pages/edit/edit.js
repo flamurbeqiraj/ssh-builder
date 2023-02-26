@@ -1,5 +1,8 @@
 import Tags from "../../node_modules/bootstrap5-tags/tags.js";
-Tags.init();
+
+const params = new Proxy(new URLSearchParams(window.location.search), {
+    get: (searchParams, prop) => searchParams.get(prop),
+});
 
 const project_list = localStorage.getItem("project_list");
 const project_name = document.getElementById('project_name')
@@ -9,11 +12,14 @@ const dist_path = document.getElementById('dist_path')
 const dist_project = document.getElementById('dist_project')
 const remote_url = document.getElementById('remote_url')
 const build_param = document.getElementById('build_param')
-const register = document.getElementById('register')
+const update = document.getElementById('update')
 const go_back = document.getElementById('go_back')
 const platformName = await window.electronAPI.getPlatformName();
 
-register.addEventListener('click', async () => {
+let id = params.id;
+let entry = JSON.parse(localStorage.getItem("project_list")).find((x) => x.uuid === id);
+
+update.addEventListener('click', async () => {
     let error_list = [];
     if (project_name.value.length < 3) {
         error_list.push(error_list.length+1+". Your project name should have more than 3 chars!")
@@ -32,9 +38,9 @@ register.addEventListener('click', async () => {
     }
 
     if (error_list.length === 0) {
-        let new_list = JSON.parse(project_list);
+        let new_list = JSON.parse(project_list).filter((x) => x.uuid !== entry.uuid);
         let item = {
-            uuid: await window.electronAPI.createUniqueUUID(),
+            uuid: entry.uuid,
             project_name: project_name.value,
             local_repo: localrepo.innerText,
             dist_path: dist_path.innerText,
@@ -42,19 +48,35 @@ register.addEventListener('click', async () => {
             remote_url: remote_url.value,
             build_param: Array.from(build_param.selectedOptions, option => option.value)
         };
-        if (new_list === null) {
-            new_list = [item];
-        } else {
-            new_list.push(item);
-        }
+
+        new_list.push(item);
 
         localStorage.setItem("project_list", JSON.stringify(new_list))
-        alert("Your project has been added successfuly!");
+        alert("Your project has been updated successfuly!");
         window.location.href = "../dashboard/dashboard.html"
     } else {
         alert(error_list.join("\n"));
     }
 })
+
+function patch_values() {
+    project_name.value = entry.project_name;
+    localrepo.innerText = entry.local_repo;
+    dist_path.innerText = entry.dist_path;
+    dist_project.value = entry.dist_project;
+    remote_url.value = entry.remote_url;
+    let build_option_list = `<option value="">Type a build step tag...</option>`;
+    if (entry.build_param.length > 0) {
+        for (let item of entry.build_param) {
+            build_option_list += `<option value="${item}" selected="selected">${item}</option>`;
+        }
+    }
+    console.log("Loaded", build_option_list);
+    build_param.innerHTML = build_option_list;
+    Tags.init();
+}
+
+patch_values();
 
 localrepo.addEventListener('click', async () => {
     if (platformName === "win32") {

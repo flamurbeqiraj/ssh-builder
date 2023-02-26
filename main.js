@@ -5,6 +5,7 @@ const { exec } = require("child_process");
 const {NodeSSH} = require('node-ssh')
 const ssh = new NodeSSH()
 require('dotenv').config()
+const { v4: uuidv4 } = require('uuid');
 
 const createWindow = () => {
   const win = new BrowserWindow({
@@ -31,6 +32,7 @@ const createWindow = () => {
     return process.platform;
   });
   ipcMain.handle('runSSHcommand', sshTransfer);
+  ipcMain.handle('createUUID', () => {return uuidv4()});
   app.on('activate', function () {
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })
@@ -75,7 +77,7 @@ function sshTransfer(event, obj_info) {
       tryKeyboard: true,
     }).then((out) => {
       ssh.execCommand(`rm -rf ${obj_info.remote_url}/*`).then(() => {
-        resolve(ssh.putDirectory(obj_info.dist, obj_info.remote_url))
+        resolve(ssh.putDirectory(obj_info.dist_path+obj_info.dist_project, obj_info.remote_url))
       })
     }).catch((err) => {
       console.log("Not auth", err);

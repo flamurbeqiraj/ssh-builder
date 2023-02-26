@@ -5,5 +5,6 @@ contextBridge.exposeInMainWorld('electronAPI',{
     updateProgress: (val) => ipcRenderer.invoke('build_progress', val),
     getPlatformName: (name) => ipcRenderer.invoke('platformName', name),
     execCommand: (cmd) => ipcRenderer.invoke('runCommand', cmd),
-    sshFilesTransfer: (bck) => ipcRenderer.invoke('runSSHcommand', bck)
+    sshFilesTransfer: (bck) => ipcRenderer.invoke('runSSHcommand', bck),
+    createUniqueUUID: () => ipcRenderer.invoke('createUUID'),
 })
