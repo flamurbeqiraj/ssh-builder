@@ -4,22 +4,22 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Register new project | Angular FTP Deployer</title>
+  <title>Edit a project | Angular FTP Deployer</title>
   <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="../../node_modules/bootstrap-icons/font/bootstrap-icons.css">
   <link rel="stylesheet" href="edit.css">
   <script defer type="module" src="edit.js"></script>
 </head>
 <body>
-  <div class="container mt-5">
-    <h5>Register you first application</h5>
+  <div class="container mt-2">
+    <h5>Edit your current project</h5>
 
-    <label class="w-100 mb-2">
+    <label class="w-100 mb-1">
       <span>Project name</span>
       <input type="text" class="form-control form-control-sm" placeholder="Project name" id="project_name">
     </label>
 
-    <label class="w-100 mb-2">
+    <label class="w-100 mb-1">
       <span>Local repo</span>
       <div class="input-group">
         <button class="text-start form-control form-control-sm" id="localrepo">Not choosen</button>
@@ -27,7 +27,7 @@
       </div>
     </label>
 
-    <label class="w-100 mb-2">
+    <label class="w-100 mb-1">
       <span>Dist/Project folder</span>
       <div class="input-group input-group-sm">
         <span class="input-group-text" id="dist_path">Not choosen</span>
@@ -35,17 +35,32 @@
       </div>
     </label>
 
-    <label class="w-100 mb-2">
+    <label class="w-100 mb-1">
       <span>Remote upload destination</span>
-      <input type="text" class="form-control form-control-sm mb-1" placeholder="https://..." id="remote_url">
+      <input type="text" class="form-control form-control-sm" placeholder="https://..." id="remote_url">
     </label>
 
-    <label class="w-100 mb-2">
+    <label class="w-100 mb-1">
       <span>Build config parameter <i>(optional)</i></span>
       <select class="form-select form-select-sm" id="build_param" name="tags[]" multiple data-allow-new="true" data-separator="|,|">      </select>
     </label>
 
-    <button class="btn btn-success btn-sm w-100 mb-2" id="update">UPDATE</button>
+    <label class="w-100">
+      <span class="d-block">Create environment file <i>(optional)</i></span>
+      <input type="checkbox" class="form-check-input" id="has_environmental_file">
+    </label>
+
+    <label class="w-100 mb-1 env-zone d-none">
+      <span>Environment file name</span>
+      <input type="text" class="form-control form-control-sm" placeholder="envfilename" id="env_filename">
+    </label>
+
+    <label class="w-100 mb-1 env-zone d-none">
+      <span>Environment file content</span>
+      <textarea class="form-control" rows="6" id="env_filecontent"></textarea>
+    </label>
+
+    <button class="btn btn-success btn-sm w-100 mb-1" id="update">UPDATE</button>
     <button class="btn btn-secondary btn-sm w-100" id="go_back">DASHBOARD</button>
   </div>
 </body>

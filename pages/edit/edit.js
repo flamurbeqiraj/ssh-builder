@@ -14,6 +14,10 @@ const remote_url = document.getElementById('remote_url')
 const build_param = document.getElementById('build_param')
 const update = document.getElementById('update')
 const go_back = document.getElementById('go_back')
+const has_env_file = document.getElementById('has_environmental_file')
+const env_filename = document.getElementById('env_filename')
+const env_filecontent = document.getElementById('env_filecontent')
+const env_contents = document.querySelectorAll('.env-zone')
 const platformName = await window.electronAPI.getPlatformName();
 
 let id = params.id;
@@ -46,8 +50,14 @@ update.addEventListener('click', async () => {
             dist_path: dist_path.innerText,
             dist_project: dist_project.value,
             remote_url: remote_url.value,
+            has_envfile: has_env_file.checked,
             build_param: Array.from(build_param.selectedOptions, option => option.value)
         };
+
+        if (has_env_file) {
+            item.env_filename = env_filename.value;
+            item.env_filecontent = env_filecontent.value;
+        }
 
         new_list.push(item);
 
@@ -65,13 +75,24 @@ function patch_values() {
     dist_path.innerText = entry.dist_path;
     dist_project.value = entry.dist_project;
     remote_url.value = entry.remote_url;
+    has_env_file.checked = entry.has_envfile;
+    for (let item of env_contents) {
+        if (has_env_file.checked) {
+            item.classList.remove("d-none");
+            item.classList.add("d-block");
+            env_filename.value = entry.env_filename;
+            env_filecontent.value = entry.env_filecontent;
+        } else {
+            item.classList.remove("d-block");
+            item.classList.add("d-none");
+        }
+    }
     let build_option_list = `<option value="">Type a build step tag...</option>`;
     if (entry.build_param.length > 0) {
         for (let item of entry.build_param) {
             build_option_list += `<option value="${item}" selected="selected">${item}</option>`;
         }
     }
-    console.log("Loaded", build_option_list);
     build_param.innerHTML = build_option_list;
     Tags.init();
 }
@@ -117,4 +138,17 @@ clear_local.addEventListener('click', async () => {
 
 go_back.addEventListener('click', async () => {
     window.location.href = "../dashboard/dashboard.html";
+})
+
+has_env_file.addEventListener('change', (e) => {
+    let isChecked = e.target.checked;
+    for (let item of env_contents) {
+        if (isChecked) {
+            item.classList.remove("d-none");
+            item.classList.add("d-block");
+        } else {
+            item.classList.remove("d-block");
+            item.classList.add("d-none");
+        }
+    }
 })

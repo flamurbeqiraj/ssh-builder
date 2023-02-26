@@ -11,6 +11,10 @@ const remote_url = document.getElementById('remote_url')
 const build_param = document.getElementById('build_param')
 const register = document.getElementById('register')
 const go_back = document.getElementById('go_back')
+const has_env_file = document.getElementById('has_environmental_file')
+const env_filename = document.getElementById('env_filename')
+const env_filecontent = document.getElementById('env_filecontent')
+const env_contents = document.querySelectorAll('.env-zone')
 const platformName = await window.electronAPI.getPlatformName();
 
 register.addEventListener('click', async () => {
@@ -40,17 +44,26 @@ register.addEventListener('click', async () => {
             dist_path: dist_path.innerText,
             dist_project: dist_project.value,
             remote_url: remote_url.value,
+            has_envfile: has_env_file.checked,
             build_param: Array.from(build_param.selectedOptions, option => option.value)
         };
+
+        if (has_env_file) {
+            item.env_filename = env_filename.value;
+            item.env_filecontent = env_filecontent.value;
+        }
+
         if (new_list === null) {
             new_list = [item];
         } else {
             new_list.push(item);
         }
 
-        localStorage.setItem("project_list", JSON.stringify(new_list))
-        alert("Your project has been added successfuly!");
-        window.location.href = "../dashboard/dashboard.html"
+        console.log(new_list);
+
+        // localStorage.setItem("project_list", JSON.stringify(new_list))
+        // alert("Your project has been added successfuly!");
+        // window.location.href = "../dashboard/dashboard.html"
     } else {
         alert(error_list.join("\n"));
     }
@@ -95,4 +108,19 @@ clear_local.addEventListener('click', async () => {
 
 go_back.addEventListener('click', async () => {
     window.location.href = "../dashboard/dashboard.html";
+})
+
+has_env_file.addEventListener('change', (e) => {
+    let isChecked = e.target.checked;
+    for (let item of env_contents) {
+        if (isChecked) {
+            item.classList.remove("d-none");
+            item.classList.add("d-block");
+        } else {
+            item.classList.remove("d-block");
+            item.classList.add("d-none");
+            env_filename.value = "";
+            env_filecontent.value = "";
+        }
+    }
 })

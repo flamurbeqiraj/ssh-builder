@@ -11,7 +11,7 @@
   <script defer type="module" src="register.js"></script>
 </head>
 <body>
-  <div class="container mt-5">
+  <div class="container mt-1">
     <h5>Register you first application</h5>
 
     <label class="w-100 mb-2">
@@ -45,6 +45,21 @@
       <select class="form-select form-select-sm" id="build_param" name="tags[]" multiple data-allow-new="true" data-separator="|,|">
         <option value="">Type a build step tag...</option>
       </select>
+    </label>
+
+    <label class="w-100">
+      <span class="d-block">Create environment file <i>(optional)</i></span>
+      <input type="checkbox" class="form-check-input" id="has_environmental_file">
+    </label>
+
+    <label class="w-100 mb-1 env-zone d-none">
+      <span>Environment file name</span>
+      <input type="text" class="form-control form-control-sm" placeholder="envfilename" id="env_filename">
+    </label>
+
+    <label class="w-100 mb-1 env-zone d-none">
+      <span>Environment file content</span>
+      <textarea class="form-control" rows="6" id="env_filecontent"></textarea>
     </label>
 
     <button class="btn btn-success btn-sm w-100 mb-2" id="register">REGISTER</button>
