@@ -59,11 +59,9 @@ register.addEventListener('click', async () => {
             new_list.push(item);
         }
 
-        console.log(new_list);
-
-        // localStorage.setItem("project_list", JSON.stringify(new_list))
-        // alert("Your project has been added successfuly!");
-        // window.location.href = "../dashboard/dashboard.html"
+        localStorage.setItem("project_list", JSON.stringify(new_list))
+        alert("Your project has been added successfuly!");
+        window.location.href = "../dashboard/dashboard.html"
     } else {
         alert(error_list.join("\n"));
     }
