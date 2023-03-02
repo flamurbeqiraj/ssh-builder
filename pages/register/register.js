@@ -7,7 +7,10 @@ const localrepo = document.getElementById('localrepo')
 const clear_local = document.getElementById('clear_local')
 const dist_path = document.getElementById('dist_path')
 const dist_project = document.getElementById('dist_project')
-const remote_url = document.getElementById('remote_url')
+const remote_host = document.getElementById('remote_host')
+const remote_port = document.getElementById('remote_port')
+const remote_user = document.getElementById('remote_user')
+const remote_password = document.getElementById('remote_password')
 const build_param = document.getElementById('build_param')
 const register = document.getElementById('register')
 const go_back = document.getElementById('go_back')
@@ -15,6 +18,8 @@ const has_env_file = document.getElementById('has_environmental_file')
 const env_filename = document.getElementById('env_filename')
 const env_filecontent = document.getElementById('env_filecontent')
 const env_contents = document.querySelectorAll('.env-zone')
+const showHidePassword = document.getElementById('password')
+const pwdIcon = document.getElementById('pwd-icon')
 const platformName = await window.electronAPI.getPlatformName();
 
 register.addEventListener('click', async () => {
@@ -31,8 +36,17 @@ register.addEventListener('click', async () => {
     if (dist_project.value.length <= 3) {
         error_list.push(error_list.length+1+". Specify the project name!")
     }
-    if (remote_url.value === "" || remote_url.value.length < 7) {
-        error_list.push(error_list.length+1+". Specify where the dist files should be moved!")
+    if (remote_host.value === "" || remote_host.value.length < 7) {
+        error_list.push(error_list.length+1+". Fill in the SSH hostname / server!")
+    }
+    if (remote_port.value === "" || remote_port.value.length < 3) {
+        error_list.push(error_list.length+1+". Fill in the SSH port!")
+    }
+    if (remote_user.value === "" || remote_user.value.length < 3) {
+        error_list.push(error_list.length+1+". Fill in the SSH username!")
+    }
+    if (remote_password.value === "" || remote_password.value.length < 3) {
+        error_list.push(error_list.length+1+". Fill in the SSH password!")
     }
 
     if (error_list.length === 0) {
@@ -43,9 +57,13 @@ register.addEventListener('click', async () => {
             local_repo: localrepo.innerText,
             dist_path: dist_path.innerText,
             dist_project: dist_project.value,
-            remote_url: remote_url.value,
+            remote_host: remote_host.value,
             has_envfile: has_env_file.checked,
-            build_param: Array.from(build_param.selectedOptions, option => option.value)
+            build_param: Array.from(build_param.selectedOptions, option => option.value),
+            cred_host: remote_host.value,
+            cred_port: remote_port.value,
+            cred_user: remote_user.value,
+            cred_pwd: remote_password.value
         };
 
         if (has_env_file) {
@@ -122,3 +140,15 @@ has_env_file.addEventListener('change', (e) => {
         }
     }
 })
+
+showHidePassword.addEventListener('click', async (e) => {
+    if (pwdIcon.classList.contains("bi-eye-fill")) {
+        pwdIcon.classList.remove("bi-eye-fill");
+        pwdIcon.classList.add("bi-eye-slash-fill");
+        remote_password.type = "text";
+    } else {
+        pwdIcon.classList.remove("bi-eye-slash-fill");
+        pwdIcon.classList.add("bi-eye-fill");
+        remote_password.type = "password";
+    }
+});

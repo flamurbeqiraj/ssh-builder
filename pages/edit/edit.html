@@ -8,13 +8,23 @@
   <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="../../node_modules/bootstrap-icons/font/bootstrap-icons.css">
   <link rel="stylesheet" href="edit.css">
+  <link rel="stylesheet" href="../../master/style.css">
   <script defer type="module" src="edit.js"></script>
 </head>
 <body>
   <div class="container mt-2">
-    <h5>Edit your current project</h5>
+    <div class="d-flex justify-content-between align-items-center">
+      <h5>Edit your current project</h5>
+      <button class="btn btn-secondary btn-sm" id="go_back"><i class="bi bi-arrow-left"></i> BACK</button>
+    </div>
+  </div>
 
-    <label class="w-100 mb-1">
+  <hr>
+
+  <div class="container mt-4">
+    <h6>You project information's</h6>
+
+    <label class="w-100 mb-2">
       <span>Project name</span>
       <input type="text" class="form-control form-control-sm" placeholder="Project name" id="project_name">
     </label>
@@ -34,15 +44,42 @@
         <input type="text" class="form-control" id="dist_project">
       </div>
     </label>
+  </div>
 
-    <label class="w-100 mb-1">
-      <span>Remote upload destination</span>
-      <input type="text" class="form-control form-control-sm" placeholder="https://..." id="remote_url">
-    </label>
+  <hr>
 
-    <label class="w-100 mb-1">
+  <div class="container">
+    <h6>Server's SSH configuration</h6>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-3 ps-0">
+          <span>Hostname</span>
+          <input type="text" class="form-control form-control-sm mb-1" placeholder="Server / IP" id="remote_host">
+        </div>
+        <div class="col-sm-3">
+          <span>Port</span>
+          <input type="text" class="form-control form-control-sm mb-1" placeholder="12345" id="remote_port">
+        </div>
+        <div class="col-sm-3">
+          <span>User</span>
+          <input type="text" class="form-control form-control-sm mb-1" placeholder="client_user" id="remote_user">
+        </div>
+        <div class="col-sm-3 pe-0">
+          <span>Password</span>
+          <div class="input-group input-group-sm">
+            <input type="password" class="form-control" id="remote_password" placeholder="client_password">
+            <button class="btn btn-outline-secondary" type="button" id="password"><i class="bi bi-eye-fill" id="pwd-icon"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <label class="w-100 mb-2">
       <span>Build config parameter <i>(optional)</i></span>
-      <select class="form-select form-select-sm" id="build_param" name="tags[]" multiple data-allow-new="true" data-separator="|,|">      </select>
+      <select class="form-select form-select-sm" id="build_param" name="tags[]" multiple data-allow-new="true" data-separator="|,|">
+        <option value="">Type a build step tag...</option>
+      </select>
     </label>
 
     <label class="w-100">
@@ -59,9 +96,12 @@
       <span>Environment file content</span>
       <textarea class="form-control" rows="6" id="env_filecontent"></textarea>
     </label>
+  </div>
 
-    <button class="btn btn-success btn-sm w-100 mb-1" id="update">UPDATE</button>
-    <button class="btn btn-secondary btn-sm w-100" id="go_back">DASHBOARD</button>
+  <hr>
+
+  <div class="container">
+    <button class="btn btn-success btn-sm w-100 mb-2" id="update">UPDATE</button>
   </div>
 </body>
 </html>
