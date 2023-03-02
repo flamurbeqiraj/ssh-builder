@@ -10,6 +10,7 @@ const localrepo = document.getElementById('localrepo')
 const clear_local = document.getElementById('clear_local')
 const dist_path = document.getElementById('dist_path')
 const dist_project = document.getElementById('dist_project')
+const remote_url = document.getElementById('remote_url')
 const remote_host = document.getElementById('remote_host')
 const remote_port = document.getElementById('remote_port')
 const remote_user = document.getElementById('remote_user')
@@ -42,6 +43,9 @@ update.addEventListener('click', async () => {
     if (dist_project.value.length <= 3) {
         error_list.push(error_list.length+1+". Specify the project name!")
     }
+    if (remote_url.value === "" || remote_url.value.length < 7) {
+        error_list.push(error_list.length+1+". Specify where the dist files should be moved!")
+    }
     if (remote_host.value === "" || remote_host.value.length < 7) {
         error_list.push(error_list.length+1+". Fill in the SSH hostname / server!")
     }
@@ -63,6 +67,7 @@ update.addEventListener('click', async () => {
             local_repo: localrepo.innerText,
             dist_path: dist_path.innerText,
             dist_project: dist_project.value,
+            remote_url: remote_url.value,
             remote_host: remote_host.value,
             has_envfile: has_env_file.checked,
             build_param: Array.from(build_param.selectedOptions, option => option.value),
@@ -93,6 +98,7 @@ function patch_values() {
     localrepo.innerText = entry.local_repo;
     dist_path.innerText = entry.dist_path;
     dist_project.value = entry.dist_project;
+    remote_url.value = entry.remote_url;
     remote_host.value = entry.cred_host;
     remote_port.value = entry.cred_port;
     remote_user.value = entry.cred_user;

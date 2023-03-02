@@ -68,13 +68,14 @@ async function handleFileOpen() {
 }
 
 function sshTransfer(event, obj_info) {
+  console.log(obj_info);
   return new Promise((resolve, reject) => {
     const ssh = new NodeSSH()
     ssh.connect({
-      host: process.env.SSH_HOST,
-      username: process.env.SSH_USER,
-      port: process.env.SSH_PORT,
-      password: process.env.SSH_PASS,
+      host: obj_info.cred_host,
+      username: obj_info.cred_user,
+      port: obj_info.cred_port,
+      password: obj_info.cred_pwd,
       tryKeyboard: true,
     }).then((out) => {
       ssh.execCommand(`rm -rf ${obj_info.remote_url}/*`).then(() => {
@@ -91,10 +92,10 @@ function createEnvironmentFile(event, obj_info) {
   return new Promise((resolve, reject) => {
     const ssh = new NodeSSH()
     ssh.connect({
-      host: process.env.SSH_HOST,
-      username: process.env.SSH_USER,
-      port: process.env.SSH_PORT,
-      password: process.env.SSH_PASS,
+      host: obj_info.cred_host,
+      username: obj_info.cred_user,
+      port: obj_info.cred_port,
+      password: obj_info.cred_pwd,
       tryKeyboard: true,
     }).then((out) => {
       ssh.execCommand(`mkdir ${obj_info.remote_url}`).then(() => {
