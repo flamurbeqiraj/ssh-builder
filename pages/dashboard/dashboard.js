@@ -41,12 +41,15 @@ add_project.addEventListener("click", async () => {
 document.addEventListener("click", async function(e) {
     let rowElement = e.target.parentElement;
     if (e.target.classList.contains("remove_project")) {
-        let list = project_list;
-        let removeIndex = e.target.closest("tr").rowIndex;
-        list.splice(removeIndex-1, 1);
-        project_list = list;
-        localStorage.setItem("project_list", JSON.stringify(list))
-        initializeProjects();
+        let projectName = rowElement.parentElement.querySelectorAll("td")[2].innerText;
+        if (confirm("Are you sure you want to delete '"+projectName+"'?") === true) {
+            let list = project_list;
+            let removeIndex = e.target.closest("tr").rowIndex;
+            list.splice(removeIndex-1, 1);
+            project_list = list;
+            localStorage.setItem("project_list", JSON.stringify(list))
+            initializeProjects();
+        }
     }
 
     if (e.target.classList.contains("edit_project")) {
