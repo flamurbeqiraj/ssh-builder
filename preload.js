@@ -8,4 +8,5 @@ contextBridge.exposeInMainWorld('electronAPI',{
     sshFilesTransfer: (bck) => ipcRenderer.invoke('runSSHcommand', bck),
     createEnvFile: (bck) => ipcRenderer.invoke('runEnvFileCreator', bck),
     createUniqueUUID: () => ipcRenderer.invoke('createUUID'),
+    createFullBackup: (cont) => ipcRenderer.invoke('createFullBackupFile', cont)
 })

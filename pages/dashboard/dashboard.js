@@ -3,6 +3,7 @@ const table_list = document.querySelector("#list");
 const add_project = document.querySelector("#add_project");
 const log_area = document.querySelector(".logarea");
 const prezone = document.querySelector("#prezone");
+const export_all = document.querySelector("#export_all");
 
 function initializeProjects() {
     if (project_list !== null) {
@@ -92,6 +93,11 @@ document.addEventListener("click", async function(e) {
         rowElement.innerHTML = '<i class="bi bi-play-circle-fill text-success cursor-pointer build"></i>';
         log_area.scrollTo(0, log_area.scrollHeight);        
     }
+});
+
+export_all.addEventListener("click", async function(e) {
+    await window.electronAPI.createFullBackup(JSON.stringify(project_list));
+    alert("Backup file created, find it under Documents.");
 });
 
 initializeProjects();

@@ -6,6 +6,10 @@ const {NodeSSH} = require('node-ssh')
 const ssh = new NodeSSH()
 require('dotenv').config()
 const { v4: uuidv4 } = require('uuid');
+const fs = require('fs');
+const os = require ('os');
+
+
 
 const createWindow = () => {
   const win = new BrowserWindow({
@@ -24,7 +28,6 @@ const createWindow = () => {
   win.webContents.openDevTools()
   ipcMain.handle('dialog:openFile', handleFileOpen);
   ipcMain.handle('build_progress', (event, argument) => {
-    console.log(argument);
     win.setProgressBar(argument)
   });
   ipcMain.handle('runCommand', executeTerminal);
@@ -34,6 +37,7 @@ const createWindow = () => {
   ipcMain.handle('runSSHcommand', sshTransfer);
   ipcMain.handle('runEnvFileCreator', createEnvironmentFile);
   ipcMain.handle('createUUID', () => {return uuidv4()});
+  ipcMain.handle('createFullBackupFile', saveFullBackup);
   app.on('activate', function () {
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })
@@ -68,7 +72,6 @@ async function handleFileOpen() {
 }
 
 function sshTransfer(event, obj_info) {
-  console.log(obj_info);
   return new Promise((resolve, reject) => {
     const ssh = new NodeSSH()
     ssh.connect({
@@ -106,4 +109,11 @@ function createEnvironmentFile(event, obj_info) {
       resolve("not connected")
     })
   });
+}
+
+function saveFullBackup(event, content) {
+  let user = os.userInfo().username;
+  fs.mkdirSync('/Users/'+user+'/Documents/SSH-Builder', { recursive: true });
+  fs.writeFileSync('/Users/'+user+'/Documents/SSH-Builder/backup - '+new Date()+'.txt', content);
+  return true;
 }
