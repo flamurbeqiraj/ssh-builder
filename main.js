@@ -4,12 +4,9 @@ const platformName = process.platform
 const { exec } = require("child_process");
 const {NodeSSH} = require('node-ssh')
 const ssh = new NodeSSH()
-require('dotenv').config()
 const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
 const os = require ('os');
-
-
 
 const createWindow = () => {
   const win = new BrowserWindow({

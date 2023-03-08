@@ -18,6 +18,7 @@ const remote_password = document.getElementById('remote_password')
 const build_param = document.getElementById('build_param')
 const update = document.getElementById('update')
 const go_back = document.getElementById('go_back')
+const duplicate = document.getElementById('duplicate')
 const has_env_file = document.getElementById('has_environmental_file')
 const env_filename = document.getElementById('env_filename')
 const env_filecontent = document.getElementById('env_filecontent')
@@ -28,6 +29,18 @@ const platformName = await window.electronAPI.getPlatformName();
 
 let id = params.id;
 let entry = JSON.parse(localStorage.getItem("project_list")).find((x) => x.uuid === id);
+let allEntries = JSON.parse(localStorage.getItem("project_list"));
+
+duplicate.addEventListener('click', async () => {
+    let newId = await window.electronAPI.createUniqueUUID();
+    entry.uuid = newId;
+    entry.project_name = entry.project_name + ' - copy';
+    allEntries.push(entry);
+    localStorage.setItem("project_list", JSON.stringify(allEntries));
+    console.log(allEntries);
+    alert("This project is successfuly duplicated!");
+    window.location.href = "edit.html?id="+newId;
+});
 
 update.addEventListener('click', async () => {
     let error_list = [];
